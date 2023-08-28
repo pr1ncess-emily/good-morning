@@ -1,5 +1,6 @@
 import os
 import discord
+from schedule import create_daily_message_schedule, is_message_send_time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,7 +26,7 @@ def get_general_channel():
     for channel in client.get_all_channels():
         if channel.name == 'general' and is_text_channel(channel):
             return channel
-
+            
 async def send_good_morning_gif():
     gif = open_gif_file()
     discord_file = create_discord_file(gif)
@@ -36,6 +37,7 @@ async def send_good_morning_gif():
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
+    print(create_daily_message_schedule())
     await send_good_morning_gif()
 
 client.run(discord_token)
