@@ -1,5 +1,6 @@
 import os
-from time import time, sleep
+from asyncio import sleep
+from time import time
 from random import sample, randint
 from dotenv import load_dotenv
 
@@ -24,7 +25,7 @@ def create_daily_message_schedule():
     num_messages = get_num_messages()
     return gen_message_send_times(num_messages, lower_time_bound, upper_time_bound)
 
-def sleep_until(stop_time):
+async def sleep_until(stop_time):
     current_time = int(time())
     sleep_duration = stop_time - time()
-    sleep(sleep_duration)
+    await sleep(sleep_duration)

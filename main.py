@@ -1,4 +1,4 @@
-import os
+import os, asyncio
 import discord
 from datetime import datetime
 from schedule import create_daily_message_schedule, sleep_until
@@ -36,11 +36,19 @@ async def send_good_morning_gif():
         await general.send(file=discord_file)
         print(f'Sent Good Morning GIF at {datetime.now()}')
 
+async def sleep_and_send_gif(message_time):
+    await sleep_until(message_time)
+    await send_good_morning_gif()
+
+# routine finishes when all scheduled tasks have been completed
+async def run_scheduled_tasks(schedule):
+    async with asyncio.TaskGroup() as tg:
+        for message_time in schedule:
+            tg.create_task(sleep_and_send_gif(message_time))
+
 async def main_message_loop():
     schedule = create_daily_message_schedule()
-    for message_time in schedule:
-        sleep_until(message_time)
-        await send_good_morning_gif()
+    await run_scheduled_tasks(schedule)
     await main_message_loop()
 
 @client.event
