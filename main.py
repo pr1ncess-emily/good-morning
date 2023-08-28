@@ -30,9 +30,9 @@ def get_general_channels():
             
 async def send_good_morning_gif():
     gif = open_gif_file()
-    discord_file = create_discord_file(gif)
     general_channels = get_general_channels()
     for channel in general_channels:
+        discord_file = create_discord_file(gif)
         await channel.send(file=discord_file)
         print(f'Sent Good Morning GIF at {datetime.now()}')
 
