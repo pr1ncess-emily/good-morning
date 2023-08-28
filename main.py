@@ -22,7 +22,7 @@ def is_text_channel(channel):
 
 def get_general_channels():
     for channel in client.get_all_channels():
-        if channel.name == 'bots' and is_text_channel(channel):
+        if channel.name == 'general' and is_text_channel(channel):
             yield channel
             
 async def send_good_morning_gif():
