@@ -23,17 +23,17 @@ def create_discord_file(file):
 def is_text_channel(channel):
     return type(channel) is discord.TextChannel
 
-def get_general_channel():
+def get_general_channels():
     for channel in client.get_all_channels():
         if channel.name == 'general' and is_text_channel(channel):
-            return channel
+            yield channel
             
 async def send_good_morning_gif():
     gif = open_gif_file()
     discord_file = create_discord_file(gif)
-    general = get_general_channel()
-    if general:
-        await general.send(file=discord_file)
+    general_channels = get_general_channels()
+    for channel in general_channels:
+        await channel.send(file=discord_file)
         print(f'Sent Good Morning GIF at {datetime.now()}')
 
 async def sleep_and_send_gif(message_time):
