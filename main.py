@@ -1,6 +1,7 @@
 import os
 import discord
-from schedule import create_daily_message_schedule, is_message_send_time
+from datetime import datetime
+from schedule import create_daily_message_schedule, sleep_until
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -33,11 +34,18 @@ async def send_good_morning_gif():
     general = get_general_channel()
     if general:
         await general.send(file=discord_file)
+        print(f'Sent Good Morning GIF at {datetime.now()}')
+
+async def main_message_loop():
+    schedule = create_daily_message_schedule()
+    for message_time in schedule:
+        sleep_until(message_time)
+        await send_good_morning_gif()
+    await main_message_loop()
 
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
-    print(create_daily_message_schedule())
-    await send_good_morning_gif()
+    await main_message_loop()
 
 client.run(discord_token)

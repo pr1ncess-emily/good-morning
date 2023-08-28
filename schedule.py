@@ -1,5 +1,5 @@
 import os
-from time import time
+from time import time, sleep
 from random import sample, randint
 from dotenv import load_dotenv
 
@@ -16,7 +16,7 @@ def get_num_messages():
 def gen_message_send_times(num_messages, lower_time_bound, upper_time_bound):
     for n in range(num_messages):
             time_range = range(lower_time_bound, upper_time_bound)
-            return sample(time_range, k=num_messages)
+            return sorted(sample(time_range, k=num_messages))
 
 def create_daily_message_schedule():
     lower_time_bound = int(time())
@@ -24,9 +24,7 @@ def create_daily_message_schedule():
     num_messages = get_num_messages()
     return gen_message_send_times(num_messages, lower_time_bound, upper_time_bound)
 
-def is_message_send_time(schedule):
+def sleep_until(stop_time):
     current_time = int(time())
-    for time in schedule:
-        if time == current_time:
-            return True
-    return False
+    sleep_duration = stop_time - time()
+    sleep(sleep_duration)
