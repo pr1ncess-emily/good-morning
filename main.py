@@ -20,17 +20,16 @@ def close_gif_file(file):
 def is_text_channel(channel):
     return type(channel) is discord.TextChannel
 
-def get_general_channels():
+def get_lizcord_general_channel():
     for channel in client.get_all_channels():
-        if channel.name == 'general' and is_text_channel(channel):
-            yield channel
+        if channel.id == 1037773076747784194 and is_text_channel(channel):
+            return channel
             
 async def send_good_morning_gif():
     gif = open_gif_file()
-    general_channels = get_general_channels()
-    for channel in general_channels:
-        await channel.send(file=discord.File(gif, description="Two anime girls kissing with the caption \"Good Morning\""))
-        print(f'Sent Good Morning GIF at {datetime.now()}')
+    general_channel = get_lizcord_general_channel()
+    await general_channel.send(file=discord.File(gif, description="Two anime girls kissing with the caption \"Good Morning\""))
+    print(f'Sent Good Morning GIF at {datetime.now()}')
 
 async def sleep_and_send_gif(message_time):
     await sleep_until(message_time)
