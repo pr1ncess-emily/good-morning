@@ -17,23 +17,19 @@ def open_gif_file():
 def close_gif_file(file):
     file.close()
 
-def create_discord_file(file):
-    return discord.File(file, description="Two anime girls kissing with the caption \"Good Morning\"")
-
 def is_text_channel(channel):
     return type(channel) is discord.TextChannel
 
 def get_general_channels():
     for channel in client.get_all_channels():
-        if channel.name == 'general' and is_text_channel(channel):
+        if channel.name == 'bots' and is_text_channel(channel):
             yield channel
             
 async def send_good_morning_gif():
     gif = open_gif_file()
     general_channels = get_general_channels()
     for channel in general_channels:
-        discord_file = create_discord_file(gif)
-        await channel.send(file=discord_file)
+        await channel.send(file=discord.File(gif, description="Two anime girls kissing with the caption \"Good Morning\""))
         print(f'Sent Good Morning GIF at {datetime.now()}')
 
 async def sleep_and_send_gif(message_time):
