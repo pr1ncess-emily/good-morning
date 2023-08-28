@@ -54,6 +54,7 @@ async def main_message_loop():
 @client.event
 async def on_ready():
     print(f'Logged in as {client.user}')
+    await send_good_morning_gif()
     await main_message_loop()
 
 client.run(discord_token)
